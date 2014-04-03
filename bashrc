@@ -1,6 +1,7 @@
 #
 # ~/.bashrc
 #
+# Most of this was stolen from other people
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -53,12 +54,11 @@ line_on () {
 	LINE="\[\e[31;1m\]\$(s=\$(printf "%*s" \$COLUMNS); echo \${s// /―})\n\[\e[0m\]"
 }
 
+#Overly complicated PS1
 set_ps1 () {
 	if [ "$color_prompt" = yes ]; then
 		local O="\["
 		local C="\]"
-		#local EXITSTATUS="$?"
-		#[[ ${EXITSTATUS} != 0 ]] && local PS1EXIT="${O}${BRed}${C}(${EXITSTATUS})${O}${NC}${C}"
 		local PS1EXIT=""
 		[[ $? != 0 ]] && local PS1EXIT="${O}${BRed}${C}($?)${O}${NC}${C}";
 		local JOBPS1=""
