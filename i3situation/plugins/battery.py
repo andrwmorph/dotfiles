@@ -5,7 +5,7 @@ from i3situation.plugins._plugin import Plugin
 __all__ = 'BatteryPlugin'
 battery_file='/sys/class/power_supply/BAT0/capacity'
 
-class DateTimePlugin(Plugin):
+class BatteryPlugin(Plugin):
 
     def __init__(self, config):
         self.options = {'interval': 30}

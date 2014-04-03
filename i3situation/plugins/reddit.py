@@ -54,9 +54,11 @@ class RedditPlugin(Plugin):
     def __init__(self, config):
         self.options = {'mode': 'front', 'color': '#FFFFFF', 'interval': 30,
                         'subreddits': ['vim', 'python'], 'username': None,
-                        'password': None, 'limit': 25, 'format': '❴subreddit❵ title ↑ups',
+                        'password': None, 'limit': 25, 'format': '[subreddit] title ↑ups',
                         'sort': 'hot'}
         super().__init__(config)
+        if isinstance(self.options['subreddits'], str):
+            self.options['subreddits'] = [self.options['subreddits']]
         self.h = html.parser.HTMLParser()
         self.client = requests.session()
         self.client.headers.update({'user-agent': 'i3situation reddit plugin'})
@@ -66,15 +68,12 @@ class RedditPlugin(Plugin):
         Generates an output string by replacing the keywords in the format
         string with the corresponding values from a submission dictionary.
         """
-        self.manageSubmissions()
-        outString = self.options['format']
-        self.selectedSubmission = self.submissions.pop()
-        for k, v in self.selectedSubmission.items():
-            outString = outString.replace(k, str(v))
-        return self.output(outString, outString)
-
-    def onClick(self, event):
-        webbrowser.open(self.selectedSubmission['url'])
+        self.manage_submissions()
+        out_string = self.options['format']
+        self.selected_submission = self.submissions.pop()
+        for k, v in self.selected_submission.items():
+            out_string = out_string.replace(k, str(v))
+        return self.output(out_string, out_string)
 
     def login(self):
         """
@@ -85,7 +84,7 @@ class RedditPlugin(Plugin):
         response = self.client.post('http://www.reddit.com/api/login', data=data)
         self.client.modhash = response.json()['json']['data']['modhash']
 
-    def manageSubmissions(self):
+    def manage_submissions(self):
         """
         If there are no or only one submissions left, get new submissions.
         This function manages URL creation and the specifics for front page
@@ -99,19 +98,21 @@ class RedditPlugin(Plugin):
                 if self.options['password'] and self.options['username']:
                     self.login()
                 url = 'http://reddit.com/.json?sort={0}'.format(self.options['sort'])
-                self.submissions = self.getSubmissions(url)
+                self.submissions = self.get_submissions(url)
             elif self.options['mode'] == 'subreddit':
                 for subreddit in self.options['subreddits']:
                     url = 'http://reddit.com/r/{0}/.json?sort={1}'.format(
                         subreddit, self.options['limit'])
-                    self.submissions += self.getSubmissions(url)
+                    self.submissions += self.get_submissions(url)
         else:
             return
 
-    def getSubmissions(self, url):
+    def get_submissions(self, url):
         """
         Connects to Reddit and gets a JSON representation of submissions.
         This JSON data is then processed and returned.
+
+        url: A url that requests for submissions should be sent to.
         """
         response = self.client.get(url, params={'limit': self.options['limit']})
         submissions = [x['data'] for x in response.json()['data']['children']]
