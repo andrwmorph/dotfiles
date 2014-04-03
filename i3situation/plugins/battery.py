@@ -2,7 +2,7 @@ import sys
 import os
 from i3situation.plugins._plugin import Plugin
 
-__all__ = 'DateTimePlugin'
+__all__ = 'BatteryPlugin'
 battery_file='/sys/class/power_supply/BAT0/capacity'
 
 class DateTimePlugin(Plugin):
