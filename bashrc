@@ -47,6 +47,7 @@ set_colors
 
 case "$TERM" in
 	xterm) color_prompt=yes;;
+	rxvt*) color_prompt=yes;;
 esac
 
 LINE=""
