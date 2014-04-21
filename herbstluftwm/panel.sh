@@ -6,9 +6,12 @@
 # cmd=( $line )
 set -f
 
-function uniq_linebuffered() {
-    awk -W interactive '$0 != l { print ; l=$0 ; fflush(); }' "$@"
+function uniq_linebuffered() { 
+	awk '$0 != l { print ; l=$0 ; fflush(); }' "$@"
 }
+#function uniq_linebuffered() {
+#    awk -W interactive '$0 != l { print ; l=$0 ; fflush(); }' "$@"
+#}
 #function get_mpd_song() {
 #    # use mpc to get currently playing song, uppercase it
 #    song=$(mpc current -h $HOME/.mpdsock -f %title%)
@@ -42,10 +45,17 @@ herbstclient pad $monitor 18
     #mpc -h $HOME/.mpdsock idleloop player &
     #mpc_pid=$!
 	
+	#load
+    while true ; do
+		echo "load $(cut -d ' ' -f1 /proc/loadavg)";
+		sleep 5 || break
+	done > >(uniq_linebuffered) &
+	cpu_pid=$!
+
 	#volume
     while true ; do
 		echo "volume $(get_volume)";
-		sleep 5 || break
+		sleep 1 || break
 	done > >(uniq_linebuffered) &
 	vol_pid=$!
 	
@@ -53,7 +63,7 @@ herbstclient pad $monitor 18
 	while true ; do
 		echo "network_wifi0 $(get_ip wifi0 W)"
 		echo "network_net0 $(get_ip net0 E)"
-        sleep 30 || break
+        sleep 10 || break
     done > >(uniq_linebuffered) &
 	net_pid=$!
 
@@ -61,7 +71,7 @@ herbstclient pad $monitor 18
 	while true ; do
 		echo "battery $(cat /sys/class/power_supply/BAT0/capacity)%"
 		echo "battery_left $(acpi | egrep -o '[0-9]{2}:[0-9]{2}' | sed '/00/s/$/ min/;s/00://')"
-        sleep 30 || break
+        sleep 60 || break
     done > >(uniq_linebuffered) &
     batt_pid=$!
 
@@ -82,6 +92,7 @@ herbstclient pad $monitor 18
     TAGS=( $(herbstclient tag_status $monitor) )
     unset TAGS[${#TAGS[@]}-1]
 	network=""
+	load=""
     date_day=""
     date_min=""
 	volume=""
@@ -123,6 +134,7 @@ herbstclient pad $monitor 18
 
         # align right
         echo -n "\r\ur\fr\br"
+		echo -n "$load"
 		echo -n "$separator"
 		echo -n "$volume"
         echo -n "$separator"
@@ -165,6 +177,9 @@ herbstclient pad $monitor 18
 			volume)
 				volume="${cmd[@]:1}"
 				;;
+			load)
+				load="${cmd[@]:1}"
+				;;	
             quit_panel)
                 exit
                 ;;
