@@ -12,7 +12,7 @@ hc emit_hook reload
 feh --bg-fill '/home/andrew/.config/bg.png'
 xset dpms 600
 compton -c -f -b
-killall twmnd && twmnd &
+#killall twmnd && twmnd &
 killall trayer && trayer --edge top --align right --widthtype pixel --width 20 --heighttype pixel --height 16 --transparent true --tint 0x000000 --expand false &
 
 # remove all existing keybindings
@@ -26,8 +26,9 @@ Mod=Mod4   # Use the super key as the main modifier
 hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
-hc keybind $Mod-Return spawn urxvt
-hc keybind $Mod-d spawn dmenu_run -l 6
+hc keybind $Mod-Return spawn urxvtc
+#hc keybind $Mod-d spawn dmenu_run -l 6
+hc keybind $Mod-d spawn interrobang
 
 
 # basic movement
@@ -71,7 +72,8 @@ hc keybind $Mod-Control-Right   resize right +$resizestep
 
 # tags
 
-tag_names=( {1..9} )
+#tag_names=( {1..9} )
+tag_names=( I II III IV WEB VI VII VMS DAEMONS 0 )
 tag_keys=( {1..9} 0 )
 
 hc rename default "${tag_names[0]}" || true
@@ -84,16 +86,7 @@ for i in ${!tag_names[@]} ; do
     fi
 done
 
-hc rename "5" "web" || hc merge_tag "5" "web"
-hc rename "8" "vms" || hc merge_tag "8" "vms"
-
-hc rename "9" "daemons"
-hc load "daemons" '(split vertical:0.300000:1 (split horizontal:0.500000:1 (clients vertical:0 0x1c00002) (clients vertical:0)) (clients vertical:0 0x1e00002))'
-
-#hc add "web"
-#hc keybind $Mod-1 use "web"
-#hc keybind $Mod-Shift-1 move "web"
-
+hc load "DAEMONS" '(split vertical:0.300000:1 (split horizontal:0.500000:1 (clients vertical:0 0x1c00002) (clients vertical:0)) (clients vertical:0 0x1e00002))'
 
 # cycle through tags
 hc keybind $Mod-period use_index +1 --skip-visible
@@ -172,6 +165,7 @@ herbstclient set tree_style '╾│ ├└╼─┐'
 # or simply:
 # hc detect_monitors
 
+killall panel.sh
 # find the panel
 panel=~/.config/herbstluftwm/panel.sh
 [ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
@@ -187,3 +181,7 @@ done
 hc keybind XF86AudioRaiseVolume spawn /home/andrew/bin/volumechange.sh '+'
 hc keybind XF86AudioLowerVolume spawn /home/andrew/bin/volumechange.sh '-'
 hc keybind XF86AudioMute spawn amixer -q set Master toggle
+hc keybind XF86AudioPlay spawn mpc -q toggle
+hc keybind XF86AudioNext spawn mpc -q next
+hc keybind XF86AudioPrev spawn mpc -q prev
+hc keybind XF86AudioStop spawn mpc -q stop

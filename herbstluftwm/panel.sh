@@ -23,7 +23,7 @@ function uniq_linebuffered() {
 function get_ip () {
 	IP=$(ip addr show dev $1 | egrep -o 'inet [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | sed 's/inet //')
 	if [[ "$IP" != "" ]] ; then
-		echo "\\\f4$2:\\\fr${IP}"
+		echo "\\\f4$2:\\\f0${IP}"
 	else
 		echo ""
 	fi
@@ -36,6 +36,8 @@ function get_volume () {
 monitor=${1:-0}
 
 separator="\f0 | \fr"
+separatorL="\f8 \br \fr"
+separatorR="\f8 \b8 \fr"
 #song=$(get_mpd_song)
 
 herbstclient pad $monitor 18
@@ -105,7 +107,7 @@ herbstclient pad $monitor 18
         for i in "${TAGS[@]}" ; do
             case ${i:0:1} in
                 '#') # current tag
-                    echo -n "\u0\fr"
+                    echo -n "\u4\fr"
                     ;;
                 '+') # active on other monitor
                     echo -n "\u3\fr"
@@ -117,16 +119,16 @@ herbstclient pad $monitor 18
                     echo -n "\u1\f1"
                     ;;
                 *)
-                    echo -n "\ur\f2"
+                    echo -n "\ur\f4"
                     ;;
             esac
             echo -n " ${i:1} " | tr '[:lower:]' '[:upper:]'
         done
         # align left
-        echo -n "\l"
+        echo -n "\l\b8"
 		echo -n "$network_wifi0"
-		echo -n "$network_net0"
-        echo -n "$separator"
+		echo -n " $network_net0"
+        echo -n "$separatorL"
         # display song and separator only if something's playing
         #if [[ $song ]]; then
         #    echo -n "\ur\fr  $song$separator"
@@ -134,16 +136,17 @@ herbstclient pad $monitor 18
 
         # align right
         echo -n "\r\ur\fr\br"
-		echo -n "$load"
-		echo -n "$separator"
-		echo -n "$volume"
+		echo -n "$separatorR"
+		echo -n "\f0$load"
+		echo -n "$separator\f0"
+		echo -ne "\xe2\x99\xaa:$volume"
         echo -n "$separator"
-		echo -n "$battery\f4/\fr$battery_left"
-        echo -n "$separator"
+		echo -n "\f0$battery\f4/\f0$battery_left"
+        echo -n "$separatorL"
         echo -n "$date_day" | tr '[:lower:]' '[:upper:]'
         echo -n " \f2"
         echo -n "$date_min   " | tr '[:lower:]' '[:upper:]'
-        echo
+        echo 
         # wait for next event
         read line || break
         cmd=( $line )
