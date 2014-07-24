@@ -19,7 +19,7 @@ while read -r line ; do
 			title="%{F$COLOR_TITLE_FG}%{B$COLOR_TITLE_BG}${line#?}"
 			;;
 		player)
-			# xtitle output
+			# current song output
 			mtrack="%{F$COLOR_TITLE_FG}%{B$COLOR_TITLE_BG}$(mpc current | cut -c1-50)"
 			;;
 		W*)
@@ -72,5 +72,4 @@ while read -r line ; do
 	esac
 	#printf "%s\n" "%{l} $wm_infos %{c} $title %{r} $sys_infos  "
 	printf "%s\n" "%{l} $title %{c}$wm_infos %{r}$mtrack | $timeleft | $sys_infos "
-	#printf "%s\n" "%{l} $wm_infos | $title %{r}$mtrack | $timeleft | $sys_infos "
 done

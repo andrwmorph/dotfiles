@@ -7,11 +7,10 @@ fi
 
 trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 
-flavor=${1:-bar}
-
 [ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
 mkfifo "$PANEL_FIFO"
 
+#PANEL_HEIGHT is 16
 bspc config top_padding $PANEL_HEIGHT
 
 bspc control --subscribe > "$PANEL_FIFO" &
@@ -19,24 +18,16 @@ xtitle -sf 'T%s' > "$PANEL_FIFO" &
 clock -sf 'S%a %H:%M' > "$PANEL_FIFO" &
 mpc idleloop player > "$PANEL_FIFO" &
 
+#Countdown timer
 while true ; do
 		echo "D$(date -ud @"$(($(date -d '07:30' +%s) - $(date +%s)))" +'%-Hh %-Mm')" > "$PANEL_FIFO"
 		sleep 1m || break
 done &
 
-. panel_colors-${flavor}
+. panel_colors-bar
 
-case "$flavor" in
-	bar)
-		#FONT_FAMILY='-*-terminus-medium-r-normal-*-12-*-*-*-c-*-*-1'
-		FONT_FAMILY='-gohu-gohufont-medium-r-normal--11-80-100-100-c-60-iso10646-1'
-		cat "$PANEL_FIFO" | panel_bar | bar -g x$PANEL_HEIGHT -f "$FONT_FAMILY" -F "$COLOR_FOREGROUND" -B "$COLOR_BACKGROUND" &
-		;;
-	dzen2)
-		FONT_FAMILY='DejaVu Sans'
-		FONT_SIZE=11
-		cat "$PANEL_FIFO" | panel_dzen2 -f "$FONT_FAMILY" -s "$FONT_SIZE" | dzen2 -h $PANEL_HEIGHT -dock -ta l -title-name panel -fn "${FONT_FAMILY}:pixelsize=${FONT_SIZE}" -fg "$COLOR_FOREGROUND" -bg "$COLOR_BACKGROUND" &
-		;;
-esac
+#FONT_FAMILY='-*-terminus-medium-r-normal-*-12-*-*-*-c-*-*-1'
+FONT_FAMILY='-gohu-gohufont-medium-r-normal--11-80-100-100-c-60-iso10646-1'
+cat "$PANEL_FIFO" | panel_bar | bar -g x$PANEL_HEIGHT -f "$FONT_FAMILY" -F "$COLOR_FOREGROUND" -B "$COLOR_BACKGROUND" &
 
 wait
