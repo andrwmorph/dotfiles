@@ -1,3 +1,0 @@
-set adblocker-filterlist /home/aelliot/.config/dwb/adblock_lists
-adblock_reload_rules
-reload

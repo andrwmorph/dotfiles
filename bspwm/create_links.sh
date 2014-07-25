@@ -2,7 +2,6 @@
 #Creates symlinks for all the dotfiles
 
 CONFIGS_D="config/bspwm|.config/bspwm 
-		 config/dwb|.config/dwb
 		 config/interrobang|.config/interrobang
 		 config/sxhkd|.config/sxhkd
 		 config/termite|.config/termite
