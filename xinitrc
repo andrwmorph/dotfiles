@@ -14,7 +14,15 @@ fi
 #Merge dem resources
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
 
+#BDF  LICENSE.txt  PCF  PSF  README.rst
 twmnd &
+
+xset +fp /home/andrew/.fonts/Meslo/
+xset +fp /home/andrew/.fonts/Terminus/BDF
+xset +fp /home/andrew/.fonts/Terminus/PCF
+xset +fp /home/andrew/.fonts/Terminus/PSF
+for dir in /usr/share/fonts/ ; do if [  -d  "$dir"  ];then xset +fp "$dir" ;fi; done && xset fp rehash
+
 
 #echo "Starting at $(date)" >> ~/.config/i3/logfile
 #exec /usr/bin/i3 -V -d all >> ~/.config/i3/logfile
@@ -25,3 +33,4 @@ twmnd &
 #exec compton --backend glx --paint-on-overlay --glx-no-stencil --vsync opengl-swc -b
 #exec compton -c -f -b
 exec herbstluftwm --locked
+#exec dbus-launch --exit-with-session herbstluftwm --locked

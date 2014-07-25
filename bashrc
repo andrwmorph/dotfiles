@@ -7,6 +7,11 @@
 [[ $- != *i* ]] && return
 
 PATH=$PATH:$HOME/bin
+export PYTHONPATH=/usr/lib/python3.4/site-packages
+if [[ $TERM == xterm-termite ]]; then
+	. /etc/profile.d/vte.sh
+	__vte_prompt_command
+fi
 
 set_colors () {
 	
@@ -46,7 +51,7 @@ set_colors () {
 set_colors
 
 case "$TERM" in
-	xterm) color_prompt=yes;;
+	xterm*) color_prompt=yes;;
 	rxvt*) color_prompt=yes;;
 esac
 

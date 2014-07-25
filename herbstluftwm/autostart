@@ -7,13 +7,14 @@ hc() {
 }
 
 hc emit_hook reload
+hc emit_hook quit_panel
 
 #xsetroot -solid '#5A8E3A'
 feh --bg-fill '/home/andrew/.config/bg.png'
 xset dpms 600
-compton -c -f -b
+compton -b
 #killall twmnd && twmnd &
-killall trayer && trayer --edge top --align right --widthtype pixel --width 20 --heighttype pixel --height 16 --transparent true --tint 0x000000 --expand false &
+#trayer --edge top --align right --widthtype pixel --width 20 --heighttype pixel --height 16 --transparent true --tint 0x0000F0 --expand false --SetPartialStrut true --SetDockType true &
 
 # remove all existing keybindings
 hc keyunbind --all
@@ -25,8 +26,8 @@ Mod=Mod4   # Use the super key as the main modifier
 
 hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
-hc keybind $Mod-Shift-c close
-hc keybind $Mod-Return spawn urxvtc
+hc keybind $Mod-w close
+hc keybind $Mod-Return spawn termite
 #hc keybind $Mod-d spawn dmenu_run -l 6
 hc keybind $Mod-d spawn interrobang
 
@@ -73,7 +74,7 @@ hc keybind $Mod-Control-Right   resize right +$resizestep
 # tags
 
 #tag_names=( {1..9} )
-tag_names=( I II III IV WEB VI VII VMS DAEMONS 0 )
+tag_names=( T1 T2 T3 T4 WEB STEAM MUSIC VMS DAEMONS 0 )
 tag_keys=( {1..9} 0 )
 
 hc rename default "${tag_names[0]}" || true
@@ -87,6 +88,8 @@ for i in ${!tag_names[@]} ; do
 done
 
 hc load "DAEMONS" '(split vertical:0.300000:1 (split horizontal:0.500000:1 (clients vertical:0 0x1c00002) (clients vertical:0)) (clients vertical:0 0x1e00002))'
+hc load "STEAM" '(split horizontal:0.250000:1 (clients horizontal:0 0x1c00010) (clients max:1 0x1c00018 0x16257de 0x1c00068))'
+hc load "VMS" '(clients max:0)'
 
 # cycle through tags
 hc keybind $Mod-period use_index +1 --skip-visible
@@ -154,6 +157,10 @@ hc rule focus=on # normally focus new clients
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
+hc rule class="Steam" title="Friends" tag=STEAM index=0 pseudotile=on
+hc rule class="Steam" tag=STEAM index=1 pseudotile=on
+hc rule class="Dwb" tag=WEB
+hc rule class=Virtualbox tag=VMS
 
 # unlock, just to be sure
 hc unlock
@@ -165,7 +172,6 @@ herbstclient set tree_style '╾│ ├└╼─┐'
 # or simply:
 # hc detect_monitors
 
-killall panel.sh
 # find the panel
 panel=~/.config/herbstluftwm/panel.sh
 [ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh

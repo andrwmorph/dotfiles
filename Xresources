@@ -308,4 +308,4 @@ URxvt*font: xft:Terminess Powerline:size=12
 ! Turn on/off ISO 14755 5.2 mode (default enabled).
 ! URxvt*iso14755_52: boolean
 
-
+Xft.dpi: 96

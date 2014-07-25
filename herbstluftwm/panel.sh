@@ -6,6 +6,9 @@
 # cmd=( $line )
 set -f
 
+#pgrep trayer || trayer --edge top --align right --widthtype pixel --width 20 --heighttype pixel --height 16 --transparent true --tint 0x000000 --expand false --SetPartialStrut true --SetDockType true &> ~/trayer.log &
+pgrep stalonetray || stalonetray &
+
 function uniq_linebuffered() { 
 	awk '$0 != l { print ; l=$0 ; fflush(); }' "$@"
 }
@@ -125,7 +128,7 @@ herbstclient pad $monitor 18
             echo -n " ${i:1} " | tr '[:lower:]' '[:upper:]'
         done
         # align left
-        echo -n "\l\b8"
+        echo -n "\ur\l\b8"
 		echo -n "$network_wifi0"
 		echo -n " $network_net0"
         echo -n "$separatorL"
