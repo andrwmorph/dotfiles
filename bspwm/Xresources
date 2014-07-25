@@ -1,0 +1,57 @@
+! URxvt*depth: 32
+
+urxvt*perl-ext-common: default,selection-to-clipboard
+
+URxvt*background: [100]#000000
+URxvt*foreground: #FFFFFF
+!URxvt*font: 9x15
+URxvt*font: -gohu-gohufont-medium-r-normal--14-100-100-100-c-80-iso10646-1
+!URxvt*boldFont: 9x15bold
+URxvt*boldFont: -gohu-gohufont-bold-r-normal--14-100-100-100-c-80-iso10646-1
+URxvt*saveLines: 30000
+*cursorColor: #cee318
+*background: #1C1C1C
+*foreground: #c5c5c5
+!Old
+!*color0: #1C1C1C
+!*color1: #FF005B
+!*color2: #CEE318
+!*color3: #FFE755
+!*color4: #048AC7
+!*color5: #833C9F
+!*color6: #0AC1CD
+!*color7: #E5E5E5
+!*color8: #666666
+!*color9: #FF00A0
+!*color10: #CCFF00
+!*color11: #FF9F00
+!*color12: #48C6FF
+!*color13: #BE67E1
+!*color14: #63E7F0
+!*color15: #F3F3F3
+
+!jwr-dark
+! Black
+*color0:   #333333
+*color8:   #3D3D3D
+! Red
+*color1:   #8C4665
+*color9:   #BF4D80
+! Green
+*color2:   #287373
+*color10:  #53A6A6
+! Yellow
+*color3:   #7C7C99
+*color11:  #9E9ECB
+! Blue
+*color4:   #395573
+*color12:  #477AB3
+! Magneta
+*color5:   #5E468C
+*color13:  #7E62B3
+! Cyan
+*color6:   #31658C
+*color14:  #6096BF
+! White
+*color7:   #899CA1
+*color15:  #C0C0C0
