@@ -1,9 +1,8 @@
-/usr/bin/vmware-user-suid-wrapper
 xrdb -merge ~/.Xresources
 #xsetroot -cursor_name top_left_arrow
-xsetroot -cursor_name left_ptr
+#xsetroot -cursor_name left_ptr
 #xset +fp /usr/share/fonts/terminus/
-xset +fp /home/aelliot/.fonts/gohufont-2.0/
-xset fp rehash
+#xset +fp /home/aelliot/.fonts/gohufont-2.0/
+#xset fp rehash
 sxhkd &
 exec bspwm
