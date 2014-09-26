@@ -10,7 +10,9 @@ dynamic_title = true
 urgent_on_bell = true
 clickable_url = true
 font = gohufont 11
-scrollback_lines = 10000
+#font = ProggySquareTTSZ 
+#font = ProggyCleanTT 
+scrollback_lines = 2000
 search_wrap = true
 #icon_name = terminal
 #geometry = 640x480
@@ -45,22 +47,6 @@ background = #000000
 highlight = #2f2f2f
 
 # colors from color0 to color254 can be set
-#color0 = #3f3f3f
-#color1 = #705050
-#color2 = #60b48a
-#color3 = #dfaf8f
-#color4 = #506070
-#color5 = #dc8cc3
-#color6 = #8cd0d3
-#color7 = #dcdccc
-#color8 = #709080
-#color9 = #dca3a3
-#color10 = #c3bf9f
-#color11 = #f0dfaf
-#color12 = #94bff3
-#color13 = #ec93d3
-#color14 = #93e0e3
-#color15 = #ffffff
 color0 = #333333
 color1 = #8C4665
 color2 = #287373
@@ -80,7 +66,7 @@ color15 = #C0C0C0
 
 
 [hints]
-#font = Monospace 12
+#font = gohufont 11
 #foreground = #dcdccc
 #background = #3f3f3f
 #padding = 2

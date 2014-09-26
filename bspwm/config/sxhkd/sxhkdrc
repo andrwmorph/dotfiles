@@ -90,8 +90,18 @@ super + d
 	interrobang	
 
 # music controls
-super + {Pause,Prior,Next}
-	mpc -q {toggle,prev,next}
+#{XF86AudioPlay,XF86AudioPrev,XF86AudioNext}
+#	mpc -q {toggle,prev,next}
+
+# volume
+{XF86AudioLowerVolume,XF86AudioRaiseVolume}
+	amixer -q sset Master {5%-,5%+}
+
+XF86AudioMute
+	amixer -q sset Master toggle
+
+XF86TouchpadToggle
+	$HOME/bin/trackpad-toggle.sh
 
 # make sxhkd reload its configuration files:
 super + Escape
