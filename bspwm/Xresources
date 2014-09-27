@@ -1,6 +1,6 @@
 ! URxvt*depth: 32
 
-#urxvt*perl-ext-common: default,selection-to-clipboard
+!urxvt*perl-ext-common: default,selection-to-clipboard
 
 URxvt*background: [100]#000000
 URxvt*foreground: #FFFFFF
