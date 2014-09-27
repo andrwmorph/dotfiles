@@ -18,6 +18,14 @@ while read -r line ; do
 			# xtitle output
 			title="%{F$COLOR_TITLE_FG}%{B$COLOR_TITLE_BG}${line#?}"
 			;;
+		B*)
+			# battery output
+			battery="%{F$COLOR_TITLE_FG}%{B$COLOR_TITLE_BG}${line#?}"
+			;;
+		E*)
+			# ESSID
+			essid="%{F$COLOR_TITLE_FG}%{B$COLOR_TITLE_BG}${line#?} | "
+			;;
 		player)
 			# current song output
 			mtrack="%{F$COLOR_TITLE_FG}%{B$COLOR_TITLE_BG}$(mpc current | cut -c1-50)"
@@ -34,6 +42,7 @@ while read -r line ; do
 				dot_o=$' \u2662 '
 				#dot_c=$' \u25A0 '
 				dot_c=$' \u2666 '
+				wm_infos="$wm_infos%{A:bspc desktop -f $name:}"
 
 				case $item in
 					O*)
@@ -42,7 +51,7 @@ while read -r line ; do
 						;;
 					F*)
 						# focused free desktop
-						wm_infos="$wm_infos%{F$COLOR_FOCUSED_FREE_FG}%{B$COLOR_FOCUSED_FREE_BG}%{U$COLOR_FOREGROUND}%{+u}${dot_c}%{-u}%{B$COLOR_FREE_BG}"
+						wm_infos="$wm_infos%{F$COLOR_FOCUSED_FREE_FG}%{B$COLOR_FOCUSED_FREE_BG}%{U$COLOR_FOREGROUND}%{+u}${dot_o}%{-u}%{B$COLOR_FREE_BG}"
 						;;
 					U*)
 						# focused urgent desktop
@@ -66,10 +75,11 @@ while read -r line ; do
 						wm_infos="$wm_infos %{F$COLOR_LAYOUT_FG}%{B$COLOR_LAYOUT_BG}$layout"
 						;;
 				esac
+				wm_infos="$wm_infos%{A}"
 				shift
 			done
 			;;
 	esac
 	#printf "%s\n" "%{l} $wm_infos %{c} $title %{r} $sys_infos  "
-	printf "%s\n" "%{l} $title %{c}$wm_infos %{r}$mtrack | $timeleft | $sys_infos "
+	printf "%s\n" "%{l} $title %{c}$wm_infos %{r}$mtrack | $battery | ${essid}${sys_infos} "
 done

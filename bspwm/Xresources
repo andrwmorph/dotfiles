@@ -1,6 +1,6 @@
 ! URxvt*depth: 32
 
-urxvt*perl-ext-common: default,selection-to-clipboard
+#urxvt*perl-ext-common: default,selection-to-clipboard
 
 URxvt*background: [100]#000000
 URxvt*foreground: #FFFFFF
@@ -8,27 +8,10 @@ URxvt*foreground: #FFFFFF
 URxvt*font: -gohu-gohufont-medium-r-normal--14-100-100-100-c-80-iso10646-1
 !URxvt*boldFont: 9x15bold
 URxvt*boldFont: -gohu-gohufont-bold-r-normal--14-100-100-100-c-80-iso10646-1
-URxvt*saveLines: 30000
+URxvt*saveLines: 10000
 *cursorColor: #cee318
 *background: #1C1C1C
 *foreground: #c5c5c5
-!Old
-!*color0: #1C1C1C
-!*color1: #FF005B
-!*color2: #CEE318
-!*color3: #FFE755
-!*color4: #048AC7
-!*color5: #833C9F
-!*color6: #0AC1CD
-!*color7: #E5E5E5
-!*color8: #666666
-!*color9: #FF00A0
-!*color10: #CCFF00
-!*color11: #FF9F00
-!*color12: #48C6FF
-!*color13: #BE67E1
-!*color14: #63E7F0
-!*color15: #F3F3F3
 
 !jwr-dark
 ! Black

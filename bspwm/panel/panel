@@ -17,6 +17,8 @@ bspc control --subscribe > "$PANEL_FIFO" &
 xtitle -sf 'T%s' > "$PANEL_FIFO" &
 clock -sf 'S%a %H:%M' > "$PANEL_FIFO" &
 mpc idleloop player > "$PANEL_FIFO" &
+battery -n1 -sf "B%i" -i 60 > "$PANEL_FIFO" &
+essid -w wifi0 -sf "E%s" > "$PANEL_FIFO" &
 
 #Countdown timer
 while true ; do
@@ -28,6 +30,6 @@ done &
 
 #FONT_FAMILY='-*-terminus-medium-r-normal-*-12-*-*-*-c-*-*-1'
 FONT_FAMILY='-gohu-gohufont-medium-r-normal--11-80-100-100-c-60-iso10646-1'
-cat "$PANEL_FIFO" | panel_bar | bar-aint-recursive -g x$PANEL_HEIGHT -f "$FONT_FAMILY" -F "$COLOR_FOREGROUND" -B "$COLOR_BACKGROUND" &
+cat "$PANEL_FIFO" | panel_bar | bar-aint-recursive -g x$PANEL_HEIGHT -f "$FONT_FAMILY" -F "$COLOR_FOREGROUND" -B "$COLOR_BACKGROUND" | bash &
 
 wait
