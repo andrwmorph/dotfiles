@@ -26,7 +26,7 @@ set margin    = -80
 ## COMMON BANGS AND COMPLETITON OPTIONS
 
 bang term     = urxvtc -e %s
-bang web      = firefox %s
+bang web      = bspc rule -a Firefox -o desktop=^2; firefox %s
 bang pdf      = mupdf %s
 bang man      = urxvtc -e man %s
 bang ddg      = firefox https://duckduckgo.com/?q=%s

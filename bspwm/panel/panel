@@ -17,13 +17,38 @@ bspc control --subscribe > "$PANEL_FIFO" &
 xtitle -sf 'T%s' > "$PANEL_FIFO" &
 clock -sf 'S%a %H:%M' > "$PANEL_FIFO" &
 mpc idleloop player > "$PANEL_FIFO" &
-battery -n1 -sf "B%i" -i 60 > "$PANEL_FIFO" &
-essid -w wifi0 -sf "E%s" > "$PANEL_FIFO" &
+battery -n1 -sf "B%s%i" -i 60 > "$PANEL_FIFO" &
+essid -w wifi0 -sf "E%s" -i 10 > "$PANEL_FIFO" &
+
+function volume () {
+	VOL=$(amixer sget Master | grep 'Front Left' | egrep -o '\[[0-9]{0,3}%\] \[(on|off)\]' | tr -d \[\])
+	VOLSTATUS="$(echo $VOL | cut -d' ' -f2)"
+	if [ "$VOLSTATUS" == "on" ]; then
+		echo "$(echo "V$VOL" | cut -d' ' -f1)%"
+	else
+		echo "VM"
+	fi
+}
+
+while true; do
+	volume > "$PANEL_FIFO"
+	sleep 5s || break
+done &
 
 #Countdown timer
+#while true ; do
+#		echo "D$(date -ud @"$(($(date -d '07:30' +%s) - $(date +%s)))" +'%-Hh %-Mm')" > "$PANEL_FIFO"
+#		sleep 1m || break
+#done &
+
+function get_ip () {
+	echo "$(ip addr show $1 | egrep -o 'inet [0-9\.]{7,15}' | sed "s/inet /$1:/") "
+}
+
+#ip address
 while true ; do
-		echo "D$(date -ud @"$(($(date -d '07:30' +%s) - $(date +%s)))" +'%-Hh %-Mm')" > "$PANEL_FIFO"
-		sleep 1m || break
+	echo "I$(get_ip wifi0)$(get_ip net0)" > "$PANEL_FIFO"
+	sleep 30s || break
 done &
 
 . panel_colors-bar
