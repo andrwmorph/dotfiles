@@ -1,8 +1,14 @@
 xrdb -merge ~/.Xresources
-#xsetroot -cursor_name top_left_arrow
+
+#Cursor
 xsetroot -cursor_name left_ptr
-#xset +fp /usr/share/fonts/terminus/
-#xset +fp /home/aelliot/.fonts/gohufont-2.0/
-#xset fp rehash
+
+#Pulseaudio :(
+/usr/bin/start-pulseaudio-x11 -D
+
+#Background
+eval $(cat ~/.fehbg)
+
+#Hotkeys and wm
 sxhkd &
 exec bspwm
