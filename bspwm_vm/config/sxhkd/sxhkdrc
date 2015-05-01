@@ -14,8 +14,16 @@ super + t
 super + b
 	bspc desktop -B
 
-super + {s,f}
-	bspc window -t {floating,fullscreen}
+super + {shift+s,s,f,x,X,m}
+	bspc window -t {pseudo_tiled,floating,fullscreen,locked,sticky,private}
+
+#Save window
+super + A
+	scratchpad.sh save
+
+#Move saved window to and from desktop X
+super + a
+	scratchpad.sh swap
 
 super + {grave,Tab}
 	bspc {window,desktop} -f last
@@ -30,9 +38,6 @@ super + {o,i}
 
 super + y
 	bspc window -w last.manual
-
-super + m
-	bspc window -s biggest
 
 super + {_,shift + }{Left,Down,Up,Right}
 	bspc window -{f,s} {left,down,up,right}
@@ -76,12 +81,24 @@ super + !button{1-3}
 super + @button{1-3}
 	bspc pointer -u
 
+super + BackSpace
+	9menu -teleport -label Power -popup -bg '#002b36' -fg '#839496' \ 
+		'Power Off:poweroff' \
+		'Reboot:reboot' \
+		'Cancel:exit'
+
 #
 # wm independent hotkeys
 #
 
 #super + Return
 #	urxvtc
+
+{XF86AudioLowerVolume,XF86AudioRaiseVolume}
+	amixer -q sset Master {5%-,5%+}
+
+XF86AudioMute
+	amixer -q sset Master toggle
 
 super + Return
 	termite
@@ -92,6 +109,9 @@ super + d
 # music controls
 super + {Pause,Prior,Next}
 	mpc -q {toggle,prev,next}
+
+{XF86AudioPlay,XF86AudioStop,XF86AudioPrev,XF86AudioNext}
+	mpc -q {toggle,stop,prev,next}
 
 # make sxhkd reload its configuration files:
 super + Escape

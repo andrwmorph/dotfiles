@@ -1,9 +1,24 @@
+#xrandr --output Virtual1 --auto --mode 1080x1920 --primary
+#xrandr --output Virtual2 --auto --mode 1920x1080 --left-of Virtual1
+
 /usr/bin/vmware-user-suid-wrapper
+
+#xrandr --newmode "1080x1920" 60 1080 1168 1280 1480  1920 1923 1933 1989 -hsync +vsync
+#xrandr --addmode Virtual1 1080x1920
+
+#xrandr --output Virtual2 --mode 1920x1080 --pos 0x0 --output Virtual1 --mode 1080x1920 --pos 1920x60
+#xrandr --output Virtual1 --mode 1080x1920 
+xrandr --output Virtual1 --mode 1920x1080 
+
+
 xrdb -merge ~/.Xresources
 #xsetroot -cursor_name top_left_arrow
 xsetroot -cursor_name left_ptr
 #xset +fp /usr/share/fonts/terminus/
-xset +fp /home/aelliot/.fonts/gohufont-2.0/
-xset fp rehash
+#xset +fp /home/aelliot/.fonts/gohufont-2.0/
+#xset fp rehash
+
 sxhkd &
 exec bspwm
+
+#exec frankenwm

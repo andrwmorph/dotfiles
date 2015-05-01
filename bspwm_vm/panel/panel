@@ -10,24 +10,46 @@ trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
 [ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
 mkfifo "$PANEL_FIFO"
 
+[ -e "$PANEL_FIFO2" ] && rm "$PANEL_FIFO2"
+mkfifo "$PANEL_FIFO2"
+
 #PANEL_HEIGHT is 16
-bspc config top_padding $PANEL_HEIGHT
+bspc config top_padding $(( $PANEL_HEIGHT * 2 ))
 
 bspc control --subscribe > "$PANEL_FIFO" &
-xtitle -sf 'T%s' > "$PANEL_FIFO" &
+xtitle -sf 'T%s' > "$PANEL_FIFO2" &
 clock -sf 'S%a %H:%M' > "$PANEL_FIFO" &
 mpc idleloop player > "$PANEL_FIFO" &
 
 #Countdown timer
 while true ; do
-		echo "D$(date -ud @"$(($(date -d '07:30' +%s) - $(date +%s)))" +'%-Hh %-Mm')" > "$PANEL_FIFO"
+		echo "D$(date -ud @"$(($(date -d '16:00' +%s) - $(date +%s)))" +'%-Hh %-Mm')" > "$PANEL_FIFO"
 		sleep 1m || break
+done &
+
+while true ; do
+		echo "C$(xsel -p | head -1 |cut -c1-100)" > "$PANEL_FIFO"
+		sleep 5s || break
 done &
 
 . panel_colors-bar
 
+PADDING=10
+DIMENSIONS=$(xdpyinfo | awk '/dimensions:/ { print $2; exit }')
+PANEL_WIDTH=$(( $(echo $DIMENSIONS | cut -dx -f1) - $(( $PADDING * 2 )) ))
+PANEL_GEOMETRY=${PANEL_WIDTH}x${PANEL_HEIGHT}+${PADDING}
+
 #FONT_FAMILY='-*-terminus-medium-r-normal-*-12-*-*-*-c-*-*-1'
 FONT_FAMILY='-gohu-gohufont-medium-r-normal--11-80-100-100-c-60-iso10646-1'
-cat "$PANEL_FIFO" | panel_bar | bar -g x$PANEL_HEIGHT -f "$FONT_FAMILY" -F "$COLOR_FOREGROUND" -B "$COLOR_BACKGROUND" &
+
+cat "$PANEL_FIFO" | panel_bar | lemonbar -g "$PANEL_GEOMETRY+0" \
+												   -f "$FONT_FAMILY" \
+												   -F "$COLOR_FOREGROUND" \
+												   -B "$COLOR_BACKGROUND" | bash &
+
+cat "$PANEL_FIFO2" | panel_bar2 | lemonbar -g "$PANEL_GEOMETRY+$PANEL_HEIGHT" \
+												   -f "$FONT_FAMILY" \
+												   -F "$COLOR_FOREGROUND" \
+												   -B "$COLOR_BACKGROUND" &
 
 wait
